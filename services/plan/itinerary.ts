@@ -70,7 +70,7 @@ Reply ONLY with a JSON object in this exact structure:
 }`
 
   const response = await client.chat.completions.create({
-    model: "openai/gpt-oss-120b:free",
+    model: "google/gemma-4-26b-a4b-it:free",
     response_format: { type: "json_object" },
     messages: [
       {
@@ -82,9 +82,10 @@ Reply ONLY with a JSON object in this exact structure:
     ],
   })
 
-  const content = response.choices[0].message.content
-  if (!content) {
+  const raw = response.choices[0].message.content
+  if (!raw) {
     throw Object.assign(new Error("No response from LLM"), { status: 503 })
   }
+  const content = raw.replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/, "").trim()
   return JSON.parse(content) as ItineraryResult
 }

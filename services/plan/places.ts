@@ -15,16 +15,30 @@ export async function fetchPlaces(lat: number, lng: number): Promise<Place[]> {
     out center 10;
   `
 
-  const res = await fetch("https://overpass.kumi.systems/api/interpreter", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-      "User-Agent": "TravelPlanner/1.0 (pimted.kit@gmail.com)",
-    },
-    body: `data=${encodeURIComponent(overpassQuery)}`,
-  })
+  const endpoints = [
+    "https://overpass-api.de/api/interpreter",
+    "https://overpass.openstreetmap.fr/api/interpreter",
+    "https://overpass.kumi.systems/api/interpreter",
+  ]
 
-  if (!res.ok) {
+  let res: Response | null = null
+  for (const url of endpoints) {
+    try {
+      res = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+          "User-Agent": "TravelPlanner/1.0",
+        },
+        body: `data=${encodeURIComponent(overpassQuery)}`,
+      })
+      if (res.ok) break
+    } catch {
+      // try next mirror
+    }
+  }
+
+  if (!res || !res.ok) {
     throw Object.assign(new Error("Failed to fetch nearby places"), { status: 502 })
   }
 

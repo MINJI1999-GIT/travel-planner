@@ -17,7 +17,7 @@ const json = (method: string, body: unknown): RequestInit => ({
 })
 
 /// หน้า API สำหรับเรียกใช้จาก client-side
-export const createPlan = (input: PlanInput) => call("/api/plan/create", json("POST", input))
-export const getPlan    = ({ lat, lng }: LatLng) => call(`/api/plan/get?lat=${lat}&lng=${lng}`)
-export const updatePlan = (input: PlanInput) => call("/api/plan/update", json("PUT", input))
-export const deletePlan = (input: LatLng)    => call("/api/plan/delete", json("DELETE", input))
+export const createPlan = (input: PlanInput) => call("/api/plan", json("POST", input))
+export const getPlan    = ({ lat, lng }: LatLng) => call(`/api/plan?lat=${lat}&lng=${lng}`)
+export const updatePlan = (input: PlanInput) => call("/api/plan", json("PUT", input))
+export const deletePlan = (input: LatLng)    => call("/api/plan", json("DELETE", input))
