@@ -19,7 +19,7 @@ export async function fetchPlaces(lat: number, lng: number): Promise<Place[]> {
     method: "POST",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
-      "User-Agent": "TravelPlanner/1.0 (tanyatorn.kong@gmail.com)",
+      "User-Agent": "TravelPlanner/1.0 (pimted.kit@gmail.com)",
     },
     body: `data=${encodeURIComponent(overpassQuery)}`,
   })

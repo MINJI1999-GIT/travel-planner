@@ -1,4 +1,4 @@
-import type { Place } from "./_places"
+import type { Place } from "./places"
 
 export type ItineraryResult = {
   places: {
